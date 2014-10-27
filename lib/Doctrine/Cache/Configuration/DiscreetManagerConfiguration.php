@@ -23,16 +23,21 @@ namespace Doctrine\Cache\Configuration;
 use Doctrine\Cache\Provider\CacheProvider;
 
 /**
- * Property based Manager Configuration
+ * Discreet Manager Configuration, free of any bounded cache provider choices.
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class PropertyBasedManagerConfiguration extends Properties implements ManagerConfiguration
+class DiscreetManagerConfiguration extends Properties implements ManagerConfiguration
 {
     /**
      * @var \Doctrine\Cache\Provider\CacheProvider
      */
     private $cacheProvider;
+
+    /**
+     * @var \Doctrine\Cache\Configuration\Properties
+     */
+    private $properties;
 
     /**
      * Constructor.
@@ -42,9 +47,8 @@ class PropertyBasedManagerConfiguration extends Properties implements ManagerCon
      */
     public function __construct(CacheProvider $cacheProvider, Properties $properties = null)
     {
-        parent::__construct($properties);
-
         $this->cacheProvider = $cacheProvider;
+        $this->properties    = $properties ?: new Properties();
     }
 
     /**
@@ -53,5 +57,13 @@ class PropertyBasedManagerConfiguration extends Properties implements ManagerCon
     public function getCacheProvider()
     {
         return $this->cacheProvider;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProperties()
+    {
+        return $this->properties;
     }
 }

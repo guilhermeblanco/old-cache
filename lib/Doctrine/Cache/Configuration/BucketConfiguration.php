@@ -35,6 +35,13 @@ interface BucketConfiguration
     public function getExpiryPolicy();
 
     /**
+     * Retrieve an associated list of properties.
+     *
+     * @return \Doctrine\Cache\Configuration\Properties
+     */
+    public function getProperties();
+
+    /**
      * Retrieve an optional bucket cache loader.
      *
      * @return null|\Doctrine\Cache\Integration\CacheLoader

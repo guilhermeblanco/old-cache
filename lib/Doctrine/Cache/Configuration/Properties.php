@@ -25,7 +25,7 @@ namespace Doctrine\Cache\Configuration;
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class Properties
+class Properties implements \ArrayAccess
 {
     /**
      * @var array
@@ -40,8 +40,60 @@ class Properties
     public function __construct(Properties $properties = null)
     {
         $this->data = $properties
-            ? $properties->data
+            ? $properties->all()
             : array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset, null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
+        $this->remove($offset);
+    }
+
+    /**
+     * Retrieve the list of all defined properties and its corresponding values.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Return a list of all defined properties in this list.
+     *
+     * @return array
+     */
+    public function names()
+    {
+        return array_keys($this->data);
     }
 
     /**
@@ -52,9 +104,9 @@ class Properties
      *
      * @return mixed
      */
-    public function getProperty($name, $default = null)
+    public function get($name, $default = null)
     {
-        return isset($this->data[$name])
+        return $this->has($name)
             ? $this->data[$name]
             : $default;
     }
@@ -65,7 +117,7 @@ class Properties
      * @param string $name
      * @param mixed  $value
      */
-    public function setProperty($name, $value)
+    public function set($name, $value)
     {
         $this->data[$name] = $value;
     }
@@ -77,18 +129,18 @@ class Properties
      *
      * @return boolean
      */
-    public function hasProperty($name)
+    public function has($name)
     {
-        return isset($this->data[$name]);
+        return isset($this->data[$name]) || array_key_exists($name, $this->data);
     }
 
     /**
-     * Return a list of all defined properties in this list.
+     * Remove a property from the list.
      *
-     * @return array
+     * @param string $name
      */
-    public function propertyNames()
+    public function remove($name)
     {
-        return array_keys($this->data);
+        unset($this->data[$name]);
     }
 }

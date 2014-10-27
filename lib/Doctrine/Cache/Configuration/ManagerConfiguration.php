@@ -33,4 +33,11 @@ interface ManagerConfiguration
      * @return \Doctrine\Cache\Provider\CacheProvider
      */
     public function getCacheProvider();
+
+    /**
+     * Retrieve an associated list of properties.
+     *
+     * @return \Doctrine\Cache\Configuration\Properties
+     */
+    public function getProperties();
 }
