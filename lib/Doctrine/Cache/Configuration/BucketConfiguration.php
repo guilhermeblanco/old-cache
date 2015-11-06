@@ -20,6 +20,8 @@
 
 namespace Doctrine\Cache\Configuration;
 
+use Doctrine\Cache\Expiry\ExpiryPolicy;
+
 /**
  * Bucket Configuration interface
  *
@@ -32,14 +34,14 @@ interface BucketConfiguration
      *
      * @return \Doctrine\Cache\Expiry\ExpiryPolicy
      */
-    public function getExpiryPolicy();
+    public function getExpiryPolicy() : ExpiryPolicy;
 
     /**
      * Retrieve an associated list of properties.
      *
      * @return \Doctrine\Cache\Configuration\Properties
      */
-    public function getProperties();
+    public function getProperties() : Properties;
 
     /**
      * Retrieve an optional bucket cache loader.

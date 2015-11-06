@@ -25,11 +25,11 @@ use Doctrine\Cache\Integration\CacheLoader;
 use Doctrine\Cache\Integration\CacheWriter;
 
 /**
- * Discreet Bucket Configuration, free of any bounded cache bucket choices.
+ * Default Bucket Configuration, free of any bounded cache bucket choices.
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class DiscreetBucketConfiguration implements BucketConfiguration
+class DefaultBucketConfiguration implements BucketConfiguration
 {
     /**
      * @var \Doctrine\Cache\Expiry\ExpiryPolicy
@@ -66,7 +66,7 @@ class DiscreetBucketConfiguration implements BucketConfiguration
     /**
      * {@inheritdoc}
      */
-    public function getExpiryPolicy()
+    public function getExpiryPolicy() : ExpiryPolicy
     {
         return $this->expiryPolicy;
     }
@@ -74,7 +74,7 @@ class DiscreetBucketConfiguration implements BucketConfiguration
     /**
      * {@inheritdoc}
      */
-    public function getProperties()
+    public function getProperties() : Properties
     {
         return $this->properties;
     }

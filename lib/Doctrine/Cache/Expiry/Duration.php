@@ -73,9 +73,9 @@ final class Duration
     /**
      * Retrieve the associated TimeUnit.
      *
-     * @return integer
+     * @return int
      */
-    public function getTimeUnit()
+    public function getTimeUnit() : int
     {
         return $this->timeUnit;
     }
@@ -85,7 +85,7 @@ final class Duration
      *
      * @return float
      */
-    public function getDurationAmount()
+    public function getDurationAmount() : float
     {
         return $this->durationAmount;
     }
@@ -93,9 +93,9 @@ final class Duration
     /**
      * Determines if Duration is zero (always expired).
      *
-     * @return boolean
+     * @return bool
      */
-    public function isZero()
+    public function isZero() : bool
     {
         return $this->timeUnit === self::ZERO;
     }
@@ -103,9 +103,9 @@ final class Duration
     /**
      * Determines if Duration is eternal (forever).
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEternal()
+    public function isEternal() : bool
     {
         return $this->timeUnit === self::ETERNAL;
     }
@@ -117,7 +117,7 @@ final class Duration
      *
      * @return float
      */
-    public function getAdjustedTime($time)
+    public function getAdjustedTime($time) : float
     {
         return $this->isEternal()
             ? 0.0 // equivalent to +INF

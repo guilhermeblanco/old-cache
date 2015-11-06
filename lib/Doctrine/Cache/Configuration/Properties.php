@@ -39,9 +39,7 @@ class Properties implements \ArrayAccess
      */
     public function __construct(Properties $properties = null)
     {
-        $this->data = $properties
-            ? $properties->all()
-            : array();
+        $this->data = $properties ? $properties->all() : [];
     }
 
     /**
@@ -81,7 +79,7 @@ class Properties implements \ArrayAccess
      *
      * @return array
      */
-    public function all()
+    public function all() : array
     {
         return $this->data;
     }
@@ -91,7 +89,7 @@ class Properties implements \ArrayAccess
      *
      * @return array
      */
-    public function names()
+    public function names() : array
     {
         return array_keys($this->data);
     }
@@ -104,7 +102,7 @@ class Properties implements \ArrayAccess
      *
      * @return mixed
      */
-    public function get($name, $default = null)
+    public function get($name, $default = null) : mixed
     {
         return $this->has($name)
             ? $this->data[$name]
@@ -127,9 +125,9 @@ class Properties implements \ArrayAccess
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
-    public function has($name)
+    public function has($name) : bool
     {
         return isset($this->data[$name]) || array_key_exists($name, $this->data);
     }

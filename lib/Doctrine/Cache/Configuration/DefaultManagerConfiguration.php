@@ -23,11 +23,11 @@ namespace Doctrine\Cache\Configuration;
 use Doctrine\Cache\Provider\CacheProvider;
 
 /**
- * Discreet Manager Configuration, free of any bounded cache provider choices.
+ * Default Manager Configuration, free of any bounded cache provider choices.
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class DiscreetManagerConfiguration extends Properties implements ManagerConfiguration
+class DefaultManagerConfiguration extends Properties implements ManagerConfiguration
 {
     /**
      * @var \Doctrine\Cache\Provider\CacheProvider
@@ -62,7 +62,7 @@ class DiscreetManagerConfiguration extends Properties implements ManagerConfigur
     /**
      * {@inheritdoc}
      */
-    public function getProperties()
+    public function getProperties() : Properties
     {
         return $this->properties;
     }

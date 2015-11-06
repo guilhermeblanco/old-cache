@@ -18,53 +18,16 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Doctrine\Cache\Expiry;
+namespace Doctrine\Cache\Integration;
 
 /**
- * An ExpiryPolicy based on the last time cache entry was updated, contemplating creation and modification of entry.
+ * Interface CacheLoader
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  *
- * @package Doctrine\Cache\Expiry
+ * @package Doctrine\Cache\Integration
  */
-class ModifiedExpiryPolicy implements ExpiryPolicy
+interface CacheLoader
 {
-    /**
-     * @var \Doctrine\Cache\Expiry\Duration
-     */
-    private $expiryDuration;
-
-    /**
-     * Constructor.
-     *
-     * @param \Doctrine\Cache\Expiry\Duration $expiryDuration
-     */
-    public function __construct(Duration $expiryDuration)
-    {
-        $this->expiryDuration = $expiryDuration;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpiryForCreation() : Duration
-    {
-        return $this->expiryDuration;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpiryForAccess() : Duration
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExpiryForUpdate() : Duration
-    {
-        return $this->expiryDuration;
-    }
+    function load($key);
 }

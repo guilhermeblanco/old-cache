@@ -43,7 +43,7 @@ interface ExpiryPolicy
      *
      * @return \Doctrine\Cache\Expiry\Duration
      */
-    public function getExpiryForCreation();
+    public function getExpiryForCreation() : Duration;
 
     /**
      * Gets the {@link Duration} before an accessed Cache Entry is considered expired.
@@ -58,7 +58,7 @@ interface ExpiryPolicy
      *
      * @return \Doctrine\Cache\Expiry\Duration
      */
-    public function getExpiryForAccess();
+    public function getExpiryForAccess() : Duration;
 
     /**
      * Gets the {@link Duration} before an updated Cache Entry is considered expired.
@@ -73,5 +73,5 @@ interface ExpiryPolicy
      *
      * @return \Doctrine\Cache\Expiry\Duration
      */
-    public function getExpiryForUpdate();
+    public function getExpiryForUpdate() : Duration;
 }

@@ -39,5 +39,5 @@ interface ManagerConfiguration
      *
      * @return \Doctrine\Cache\Configuration\Properties
      */
-    public function getProperties();
+    public function getProperties() : Properties;
 }

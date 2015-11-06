@@ -47,7 +47,7 @@ class EternalExpiryPolicy implements ExpiryPolicy
     /**
      * {@inheritdoc}
      */
-    public function getExpiryForCreation()
+    public function getExpiryForCreation() : Duration
     {
         return $this->expiryDuration;
     }
@@ -55,7 +55,7 @@ class EternalExpiryPolicy implements ExpiryPolicy
     /**
      * {@inheritdoc}
      */
-    public function getExpiryForAccess()
+    public function getExpiryForAccess() : Duration
     {
         return null;
     }
@@ -63,7 +63,7 @@ class EternalExpiryPolicy implements ExpiryPolicy
     /**
      * {@inheritdoc}
      */
-    public function getExpiryForUpdate()
+    public function getExpiryForUpdate() : Duration
     {
         return null;
     }
