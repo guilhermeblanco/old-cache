@@ -29,5 +29,5 @@ namespace Doctrine\Cache\Integration;
  */
 interface CacheLoader
 {
-    function load($key);
+    public function load(string $key) : mixed;
 }

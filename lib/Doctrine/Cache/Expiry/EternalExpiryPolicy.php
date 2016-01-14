@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /* 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -57,7 +59,7 @@ class EternalExpiryPolicy implements ExpiryPolicy
      */
     public function getExpiryForAccess() : Duration
     {
-        return null;
+        return $this->expiryDuration;
     }
 
     /**
@@ -65,6 +67,6 @@ class EternalExpiryPolicy implements ExpiryPolicy
      */
     public function getExpiryForUpdate() : Duration
     {
-        return null;
+        return $this->expiryDuration;
     }
 }

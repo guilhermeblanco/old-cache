@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,16 +20,23 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Doctrine\Cache\Provider;
+namespace Doctrine\Cache\Converter;
 
-/**
- * Interface CacheProvider
- *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- *
- * @package Doctrine\Cache\Provider
- */
-interface CacheProvider
+class SerializeConverter implements Converter
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function toInternal(mixed $value) : mixed
+    {
+        return serialize($value);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function fromInternal(mixed $internal) : mixed
+    {
+        return unserialize($internal);
+    }
 }

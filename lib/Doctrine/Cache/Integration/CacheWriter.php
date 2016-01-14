@@ -29,7 +29,7 @@ namespace Doctrine\Cache\Integration;
  */
 interface CacheWriter
 {
-    function write($key);
+    public function write(string $key) : void;
 
-    function delete($key);
+    public function delete(string $key) : void;
 }

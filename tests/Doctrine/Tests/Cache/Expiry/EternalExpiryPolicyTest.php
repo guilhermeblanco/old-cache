@@ -6,7 +6,7 @@ use Doctrine\Cache\Expiry\EternalExpiryPolicy;
 use Doctrine\Cache\Expiry\Duration;
 use Doctrine\Tests\DoctrineTestCase;
 
-class EternalExpiryPolicyTest extends DoctrineTestCase
+class EternalExpiryPolicyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideDataForCreation

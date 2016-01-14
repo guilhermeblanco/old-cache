@@ -4,9 +4,8 @@ namespace Doctrine\Tests\Cache\Expiry;
 
 use Doctrine\Cache\Expiry\AccessedExpiryPolicy;
 use Doctrine\Cache\Expiry\Duration;
-use Doctrine\Tests\DoctrineTestCase;
 
-class AccessedExpiryPolicyTest extends DoctrineTestCase
+class AccessedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideDataForCreation

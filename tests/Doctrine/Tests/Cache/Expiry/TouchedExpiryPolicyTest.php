@@ -6,7 +6,7 @@ use Doctrine\Cache\Expiry\TouchedExpiryPolicy;
 use Doctrine\Cache\Expiry\Duration;
 use Doctrine\Tests\DoctrineTestCase;
 
-class TouchedExpiryPolicyTest extends DoctrineTestCase
+class TouchedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideDataForCreation

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,42 +20,23 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Doctrine\Cache\Configuration;
+namespace Doctrine\Cache\Converter;
 
-use Doctrine\Cache\Expiry\ExpiryPolicy;
-
-/**
- * Bucket Configuration interface
- *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- */
-interface BucketConfiguration
+class AsIsConverter implements Converter
 {
     /**
-     * Retrieve an associated bucket expiry policy.
-     *
-     * @return \Doctrine\Cache\Expiry\ExpiryPolicy
+     * {@inheritdoc}
      */
-    public function getExpiryPolicy() : ExpiryPolicy;
+    public function toInternal(mixed $value) : mixed
+    {
+        return $value;
+    }
 
     /**
-     * Retrieve an associated list of properties.
-     *
-     * @return \Doctrine\Cache\Configuration\Properties
+     * {@inheritdoc}
      */
-    public function getProperties() : Properties;
-
-    /**
-     * Retrieve an optional bucket cache loader.
-     *
-     * @return null|\Doctrine\Cache\Integration\CacheLoader
-     */
-    public function getCacheLoader();
-
-    /**
-     * Retrieve an optional bucket cache writer.
-     *
-     * @return null|\Doctrine\Cache\Integration\CacheWriter
-     */
-    public function getCacheWriter();
+    public function fromInternal(mixed $internal) : mixed
+    {
+        return $internal;
+    }
 }
