@@ -25,9 +25,9 @@ namespace Doctrine\Cache\Expiry;
 /**
  * An ExpiryPolicy based on the cache entry creation, not contemplating cache updates.
  *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- *
  * @package Doctrine\Cache\Expiry
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class CreatedExpiryPolicy implements ExpiryPolicy
 {

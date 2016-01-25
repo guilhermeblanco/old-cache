@@ -1,6 +1,8 @@
 <?php
 
-/* 
+declare(strict_types = 1);
+
+/*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -12,7 +14,7 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
@@ -26,9 +28,9 @@ namespace Doctrine\Cache\Expiry;
  * Each of the functions return a new {@link Duration} that specifies the amount of time that must pass before a cache
  * entry is considered expired. {@link Duration} has constants defined for useful durations.
  *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- *
  * @package Doctrine\Cache\Expiry
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 interface ExpiryPolicy
 {

@@ -22,6 +22,13 @@ declare(strict_types = 1);
 
 namespace Doctrine\Cache\Converter;
 
+/**
+ * Class AsIsConverter
+ *
+ * @package Doctrine\Cache\Converter
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
+ */
 class AsIsConverter implements Converter
 {
     /**

@@ -25,9 +25,9 @@ namespace Doctrine\Cache\Expiry;
 /**
  * An ExpiryPolicy based on the last time cache entry was accessed, not contemplating cache updates.
  *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- *
  * @package Doctrine\Cache\Expiry
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class AccessedExpiryPolicy implements ExpiryPolicy
 {

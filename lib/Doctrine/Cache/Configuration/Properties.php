@@ -23,6 +23,8 @@ namespace Doctrine\Cache\Configuration;
 /**
  * Properties class represents a persistent set of properties.
  *
+ * @package Doctrine\Cache\Configuration
+ *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class Properties implements \ArrayAccess

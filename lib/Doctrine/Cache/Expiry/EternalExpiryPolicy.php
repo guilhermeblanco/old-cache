@@ -26,9 +26,9 @@ namespace Doctrine\Cache\Expiry;
  * An ExpiryPolicy that never expires. This however does not mean they will not be evicted if internal cache
  * implementation needs to free-up resources.
  *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- *
  * @package Doctrine\Cache\Expiry
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class EternalExpiryPolicy implements ExpiryPolicy
 {

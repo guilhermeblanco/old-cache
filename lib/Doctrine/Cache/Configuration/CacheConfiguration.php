@@ -27,12 +27,12 @@ use Doctrine\Cache\Expiry;
 use Doctrine\Cache\Integration;
 
 /**
- * CacheConfiguration provides relevant configuration properties
- * that are used by CacheManagers to configure Caches.
- *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * {@link CacheConfiguration} provides relevant configuration properties that are used by {@link CacheManager}s to
+ * configure {@link Cache}s.
  *
  * @package Doctrine\Cache\Configuration
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class CacheConfiguration
 {
@@ -185,7 +185,7 @@ class CacheConfiguration
     /**
      * Checks if a cache should operate in write-through mode.
      *
-     * When in write-through mode, cache update occurs as a result of "put" operations
+     * When in write-through mode, cache update occurs as a result of "set" operations
      * will issue the configured {@link Integration\CacheWriter} to be invoked.
      *
      * @return bool
@@ -211,7 +211,7 @@ class CacheConfiguration
      * Define the cache writer.
      *
      * {@link Integration\CacheWriter} must be configured for write-through caches
-     * to store values when cache update occurs as a result of "put" operations.
+     * to store values when cache update occurs as a result of "set" operations.
      *
      * @param Integration\CacheWriter $writer
      */

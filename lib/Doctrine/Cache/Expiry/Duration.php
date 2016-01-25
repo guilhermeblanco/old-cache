@@ -25,9 +25,9 @@ namespace Doctrine\Cache\Expiry;
 /**
  * Time duration.
  *
- * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
- *
  * @package Doctrine\Cache\Expiry
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 final class Duration
 {
