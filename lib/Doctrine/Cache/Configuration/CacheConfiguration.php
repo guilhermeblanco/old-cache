@@ -3,21 +3,16 @@
 declare(strict_types = 1);
 
 /*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
+ * This software consists of voluntary contributions made by many individuals and is licensed under the MIT license.
+ * For more information, see <http://www.doctrine-project.org>.
  */
 
 namespace Doctrine\Cache\Configuration;
@@ -87,7 +82,7 @@ class CacheConfiguration
      *
      * @param Expiry\ExpiryPolicy $expiryPolicy
      */
-    public function setExpiryPolicy(Expiry\ExpiryPolicy $expiryPolicy) : void
+    public function setExpiryPolicy(Expiry\ExpiryPolicy $expiryPolicy)
     {
         $this->expiryPolicy = $expiryPolicy;
     }
@@ -113,7 +108,7 @@ class CacheConfiguration
      *
      * @param Converter\Converter $converter
      */
-    public function setKeyConverter(Converter\Converter $converter) : void
+    public function setKeyConverter(Converter\Converter $converter)
     {
         $this->keyConverter = $converter;
     }
@@ -139,7 +134,7 @@ class CacheConfiguration
      *
      * @param Converter\Converter $converter
      */
-    public function setValueConverter(Converter\Converter $converter) : void
+    public function setValueConverter(Converter\Converter $converter)
     {
         $this->valueConverter = $converter;
     }
@@ -177,7 +172,7 @@ class CacheConfiguration
      *
      * @param Integration\CacheLoader $loader
      */
-    public function setCacheLoader(Integration\CacheLoader $loader) : void
+    public function setCacheLoader(Integration\CacheLoader $loader)
     {
         $this->cacheLoader = $loader;
     }
@@ -215,7 +210,7 @@ class CacheConfiguration
      *
      * @param Integration\CacheWriter $writer
      */
-    public function setCacheWriter(Integration\CacheWriter $writer) : void
+    public function setCacheWriter(Integration\CacheWriter $writer)
     {
         $this->cacheWriter = $writer;
     }
@@ -225,7 +220,7 @@ class CacheConfiguration
      *
      * @param bool $enabled
      */
-    public function setStatisticsEnabled(boolean $enabled) : void
+    public function setStatisticsEnabled(boolean $enabled)
     {
         $this->statisticsEnabled = $enabled;
     }

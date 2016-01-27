@@ -3,34 +3,27 @@
 declare(strict_types = 1);
 
 /*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
+ * This software consists of voluntary contributions made by many individuals and is licensed under the MIT license.
+ * For more information, see <http://www.doctrine-project.org>.
  */
 
 namespace Doctrine\Cache;
 
 /**
- * A Cache is a Map-like data structure that provides temporary storage of application data.
- * Unlike Maps, Caches
+ * A Cache is a Map-like data structure that provides temporary storage of application data. Unlike Maps, Caches:
  *
  * 1. do not allow null keys or values. Attempts to use null will result in a InvalidArgumentException
- * 2. provide the ability to read values from a CacheLoader (read-through-caching) when a value being requested is not in a cache
- * 3. provide the ability to write values to a CacheWriter (write-through-caching) when a value being created/updated/removed from a cache
- * 4. provide the ability to observe cache entry changes
- * 5. may capture and measure operational statistics
+ * 2. provide ability to read values from a CacheLoader (read-through) when a value being requested is not in a cache
+ * 3. provide ability to write values to a CacheWriter (write-through) when a value being created/updated/removed from a cache
+ * 4. may capture and measure operational statistics
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
@@ -38,22 +31,13 @@ interface Cache
 {
     public function getName() : string;
 
-    public function getCacheManager() : CacheManager;
-
     public function getConfiguration() : CacheConfiguration;
-
-    public function getStatistics() : CacheStatistics;
-
-    public function close() : void;
-
-    public function isClose() : boolean;
 
     /**
      * Gets an entry from the cache.
      *
-     * If the cache is configured to use read-through, and get would return null because
-     * the entry is missing from the cache, the Cache's CacheLoader is called in an
-     * attempt to load the entry.
+     * If the cache is configured to use read-through, and get would return null because the entry is missing from the
+     * cache, the Cache's CacheLoader is called in an attempt to load the entry.
      *
      * @param string $key
      *
@@ -64,14 +48,13 @@ interface Cache
      *
      * @return mixed|null
      */
-    public function get(string $key) : mixed;
+    public function get(string $key);
 
     /**
      * Associates the specified value with the specified key in the cache.
      *
-     * If the Cache previously contained a mapping for the key, the old value is replaced
-     * by the specified value. (A cache c is said to contain a mapping for a key k if and
-     * only if c.isset(k) would return true.)
+     * If the Cache previously contained a mapping for the key, the old value is replaced by the specified value.
+     * (A cache c is said to contain a mapping for a key k if and only if c.isset(k) would return true.)
      *
      * @param string $key
      * @param mixed  $value
@@ -81,15 +64,15 @@ interface Cache
      * @throws \InvalidArgumentException        If argument could not be properly validated.
      *                                          (useful when verifying key type, for example).
      *
-     * @return boolean
+     * @return bool
      */
-    public function set(string $key, mixed $value) : boolean;
+    public function set(string $key, $value) : bool;
 
     /**
      * Determines if the Cache contains an entry for the specified key.
      *
-     * More formally, returns true if and only if this cache contains a mapping
-     * for a key k such that key === k. (There can be at most one such mapping.)
+     * More formally, returns true if and only if this cache contains a mapping for a key k such that key === k.
+     * (There can be at most one such mapping.)
      *
      * @param string $key
      *
@@ -98,19 +81,18 @@ interface Cache
      * @throws \InvalidArgumentException        If argument could not be properly validated.
      *                                          Verifying should only validate if key is a string.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isset(string $key) : boolean;
+    public function isset(string $key) : bool;
 
     /**
      * Removes the mapping for a key from this cache if it is present.
      *
-     * More formally, if this cache contains a mapping from key k to value v such
-     * that (key === null ? k === null : key === k), that mapping is removed.
+     * More formally, if this cache contains a mapping from key k to value v such that
+     * (key === null ? k === null : key === k), that mapping is removed.
      * (The cache can contain at most one such mapping.)
      *
-     * Returns true if this cache previously associated the key, or false if the
-     * cache contained no mapping for the key.
+     * Returns true if this cache previously associated the key, or false if the cache contained no mapping for the key.
      *
      * The cache will not contain a mapping for the specified key once the call returns.
      *
@@ -121,9 +103,9 @@ interface Cache
      * @throws \InvalidArgumentException        If argument could not be properly validated.
      *                                          Removing should only validate if key is a string.
      *
-     * @return boolean
+     * @return bool
      */
-    public function unset(string $key) : boolean;
+    public function unset(string $key) : bool;
 
     public function invoke(string $key, Processor\EntryProcessor $processor, ...$arguments) : Processor\EntryProcessorResult;
 }

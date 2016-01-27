@@ -3,21 +3,16 @@
 declare(strict_types = 1);
 
 /*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
+ * This software consists of voluntary contributions made by many individuals and is licensed under the MIT license.
+ * For more information, see <http://www.doctrine-project.org>.
  */
 
 namespace Doctrine\Cache;
@@ -39,7 +34,7 @@ interface CacheStatistics
      * Clears the statistics counters to 0 for the associated Cache.
      *
      */
-    public function clear() : void;
+    public function clear();
 
     /**
      * The mean time to execute gets.
@@ -69,7 +64,7 @@ interface CacheStatistics
      *
      * @return int the number of evictions
      */
-    public function getCacheEvictions() : integer;
+    public function getCacheEvictions() : int;
 
     /**
      * The total number of requests to the cache. This will be equal to the sum of the hits and misses.
@@ -80,7 +75,7 @@ interface CacheStatistics
      *
      * @return int the number of gets
      */
-    public function getCacheGets() : integer;
+    public function getCacheGets() : int;
 
     /**
      * The total number of sets to the cache.
@@ -90,7 +85,7 @@ interface CacheStatistics
      *
      * @return int the number of sets
      */
-    public function getCacheSets() : integer;
+    public function getCacheSets() : int;
 
     /**
      * The total number of unsets from the cache. This does not include evictions, where the cache itself initiates the
@@ -98,7 +93,7 @@ interface CacheStatistics
      *
      * @return int the number of unsets
      */
-    public function getCacheUnsets() : integer;
+    public function getCacheUnsets() : int;
 
     /**
      * This is a measure of cache efficiency.
@@ -127,7 +122,7 @@ interface CacheStatistics
      *
      * @return int the number of hits
      */
-    public function getCacheHits() : integer;
+    public function getCacheHits() : int;
 
     /**
      * A miss is a get request that is not satisfied.
@@ -146,5 +141,5 @@ interface CacheStatistics
      *
      * @return int the number of misses
      */
-    public function getCacheMisses() : integer;
+    public function getCacheMisses() : int;
 }
