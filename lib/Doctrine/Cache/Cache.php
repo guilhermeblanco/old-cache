@@ -21,9 +21,9 @@ namespace Doctrine\Cache;
  * A Cache is a Map-like data structure that provides temporary storage of application data. Unlike Maps, Caches:
  *
  * 1. do not allow null keys or values. Attempts to use null will result in a InvalidArgumentException
- * 2. provide ability to read values from a CacheLoader (read-through) when a value being requested is not in a cache
- * 3. provide ability to write values to a CacheWriter (write-through) when a value being created/updated/removed from a cache
- * 4. may capture and measure operational statistics
+ * 2. provide ability to read values from a CacheLoader (read-through) when a value is requested and is not in a cache
+ * 3. provide ability to write values to a CacheWriter (write-through) when a value is created/updated/removed from a
+ * cache
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */

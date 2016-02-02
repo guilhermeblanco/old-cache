@@ -17,10 +17,8 @@ declare(strict_types = 1);
 
 namespace Doctrine\Cache\Driver\InMemory;
 
-use Doctrine\Cache\Cache;
-use Doctrine\Cache\CacheStatistics;
 use Doctrine\Cache\Configuration;
-use Doctrine\Cache\string;
+use Doctrine\Cache\Exception\IllegalStateException;
 
 /**
  * Class CacheManager
@@ -31,50 +29,110 @@ use Doctrine\Cache\string;
  */
 class CacheManager implements \Doctrine\Cache\CacheManager
 {
-    private $cacheStatisticsMap = [];
+    /**
+     * @var array
+     */
     private $cacheMap = [];
 
-    public function createCache(string $name, Configuration\CacheConfiguration $configuration) : Cache
+    /**
+     * @var bool
+     */
+    private $closed = false;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createCache(string $name, Configuration\CacheConfiguration $configuration) : \Doctrine\Cache\Cache
     {
-        // TODO: Implement createCache() method.
+        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+        assert(
+            ! isset($this->cacheMap[$name]),
+            new \InvalidArgumentException(sprintf('A cache named "%s" already exists', $name))
+        );
+
+        $this->cacheMap[$name] = new Cache($this, $name, $configuration);
+
+        return $this->cacheMap[$name];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCache(string $name) : Cache
     {
-        // TODO: Implement getCache() method.
+        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+        assert(
+            isset($this->cacheMap[$name]),
+            new \InvalidArgumentException(sprintf('A cache named "%s" does not exist', $name))
+        );
+
+        return $this->cacheMap[$name];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCacheNameList() : array
     {
-        // TODO: Implement getCacheNameList() method.
+        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+
+        return new ArrayIterator(array_keys($this->cacheMap));
     }
 
-    public function destroyCache(string $name) : void
+    /**
+     * {@inheritdoc}
+     */
+    public function destroyCache(string $name)
     {
-        // TODO: Implement destroyCache() method.
+        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+
+        unset($this->cacheMap[$name]);
     }
 
-    public function enableStatistics(string $cacheName, boolean $enabled) : void
+    /**
+     * {@inheritdoc}
+     */
+    public function enableStatistics(string $cacheName, boolean $enabled)
     {
+        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+
         // TODO: Implement enableStatistics() method.
     }
 
-    public function getStatistics(string $cacheName) : CacheStatistics
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatistics(string $cacheName) : \Doctrine\Cache\CacheStatistics
     {
+        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+
         // TODO: Implement getStatistics() method.
     }
 
-    public function close() : void
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
     {
-        // TODO: Implement close() method.
+        $this->closed = true;
+
+        foreach ($this->cacheMap as $cache) {
+            $cache->close();
+        }
     }
 
-    public function isClosed() : boolean
+    /**
+     * {@inheritdoc}
+     */
+    public function isClosed() : bool
     {
         // TODO: Implement isClosed() method.
     }
 
-    public function isSupported(string $feature) : boolean
+    /**
+     * {@inheritdoc}
+     */
+    public function isSupported(string $feature) : bool
     {
         // TODO: Implement isSupported() method.
     }
