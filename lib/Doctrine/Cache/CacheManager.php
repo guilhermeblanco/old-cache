@@ -78,15 +78,15 @@ interface CacheManager
      * will raise an {@link Exception\IllegalStateException}.  If the {@link Cache}s managed by the {@link CacheManager}
      * change, the {@link Traversable} is not affected.
      *
-     * {@link Traversable}s returned may not provide all of the {@link Cache}s managed by the {@link CacheManager}.
+     * Array returned may not provide all of the {@link Cache}s managed by the {@link CacheManager}.
      * For example: Internally defined or platform specific {@link Cache}s that may be accessible by a call to
      * {@link #getCache(String)} may not be present in an iteration.
      *
-     * @return \Traversable
+     * @return array
      *
      * @throws Exception\IllegalStateException if the CacheManager is {@link #isClosed()}
      */
-    public function getCacheNameList() : \Traversable;
+    public function getCacheNameList() : array;
 
     /**
      * Destroys a specifically named and managed {@link Cache}. Once destroyed a new {@link Cache} of the same name may

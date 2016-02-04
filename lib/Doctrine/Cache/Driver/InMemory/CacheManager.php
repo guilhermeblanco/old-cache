@@ -76,7 +76,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     {
         assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
 
-        return new ArrayIterator(array_keys($this->cacheMap));
+        return array_keys($this->cacheMap);
     }
 
     /**

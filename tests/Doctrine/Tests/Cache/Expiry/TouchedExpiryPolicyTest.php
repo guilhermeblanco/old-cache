@@ -4,7 +4,6 @@ namespace Doctrine\Tests\Cache\Expiry;
 
 use Doctrine\Cache\Expiry\TouchedExpiryPolicy;
 use Doctrine\Cache\Expiry\Duration;
-use Doctrine\Tests\DoctrineTestCase;
 
 class TouchedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
 {

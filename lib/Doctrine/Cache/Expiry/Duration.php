@@ -54,17 +54,17 @@ final class Duration
      * @param integer $timeUnit
      * @param float   $durationAmount
      *
-     * @throws \IllegalArgumentException If durationAmount is a negative number.
+     * @throws \InvalidArgumentException If durationAmount is a negative number.
      */
     public function __construct($timeUnit, $durationAmount = 0.0)
     {
         $this->timeUnit = $timeUnit;
 
         if ($durationAmount < 0) {
-            throw new \IllegalArgumentException('Cannot specify a negative durationAmount.');
+            throw new \InvalidArgumentException('Cannot specify a negative duration amount.');
         }
 
-        $this->durationAmount = $durationAmount;
+        $this->durationAmount = ($timeUnit > self::ZERO) ? $durationAmount : 0.0;
     }
 
     /**
@@ -94,7 +94,8 @@ final class Duration
      */
     public function isZero() : bool
     {
-        return $this->timeUnit === self::ZERO;
+        return $this->timeUnit === self::ZERO
+            || ($this->timeUnit !== self::ETERNAL && $this->durationAmount === 0.0);
     }
 
     /**

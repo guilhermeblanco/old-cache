@@ -4,7 +4,6 @@ namespace Doctrine\Tests\Cache\Expiry;
 
 use Doctrine\Cache\Expiry\CreatedExpiryPolicy;
 use Doctrine\Cache\Expiry\Duration;
-use Doctrine\Tests\DoctrineTestCase;
 
 class CreatedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,11 +45,11 @@ class CreatedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                null,
+                new Duration(Duration::ETERNAL),
                 new Duration(Duration::ETERNAL),
             ),
             array(
-                null,
+                new Duration(Duration::ETERNAL),
                 new Duration(Duration::DAYS, 1),
             )
         );
@@ -70,11 +69,11 @@ class CreatedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                null,
+                new Duration(Duration::ETERNAL),
                 new Duration(Duration::ETERNAL),
             ),
             array(
-                null,
+                new Duration(Duration::ETERNAL),
                 new Duration(Duration::DAYS, 1),
             )
         );

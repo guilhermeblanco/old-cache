@@ -4,7 +4,6 @@ namespace Doctrine\Tests\Cache\Expiry;
 
 use Doctrine\Cache\Expiry\EternalExpiryPolicy;
 use Doctrine\Cache\Expiry\Duration;
-use Doctrine\Tests\DoctrineTestCase;
 
 class EternalExpiryPolicyTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +39,9 @@ class EternalExpiryPolicyTest extends \PHPUnit_Framework_TestCase
     public function provideDataForAccess()
     {
         return array(
-            array(null)
+            array(
+                new Duration(Duration::ETERNAL),
+            )
         );
     }
 
@@ -57,7 +58,9 @@ class EternalExpiryPolicyTest extends \PHPUnit_Framework_TestCase
     public function provideDataForUpdate()
     {
         return array(
-            array(null),
+            array(
+                new Duration(Duration::ETERNAL),
+            ),
         );
     }
 }

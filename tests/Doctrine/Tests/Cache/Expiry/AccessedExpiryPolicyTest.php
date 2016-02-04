@@ -69,11 +69,11 @@ class AccessedExpiryPolicyTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                null,
+                new Duration(Duration::ETERNAL),
                 new Duration(Duration::ETERNAL),
             ),
             array(
-                null,
+                new Duration(Duration::ETERNAL),
                 new Duration(Duration::DAYS, 1),
             )
         );
