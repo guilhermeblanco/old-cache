@@ -52,14 +52,6 @@ class EternalExpiryPolicy implements ExpiryPolicy
     /**
      * {@inheritdoc}
      */
-    public function getExpiryForAccess() : Duration
-    {
-        return $this->expiryDuration;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getExpiryForUpdate() : Duration
     {
         return $this->expiryDuration;

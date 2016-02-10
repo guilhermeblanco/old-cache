@@ -17,6 +17,8 @@ declare(strict_types = 1);
 
 namespace Doctrine\Cache;
 
+use Doctrine\Cache\Configuration\CacheConfiguration;
+
 /**
  * A Cache is a Map-like data structure that provides temporary storage of application data. Unlike Maps, Caches:
  *
@@ -25,13 +27,19 @@ namespace Doctrine\Cache;
  * 3. provide ability to write values to a CacheWriter (write-through) when a value is created/updated/removed from a
  * cache
  *
+ * @package Doctrine\Cache
+ *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 interface Cache
 {
+    public function getCacheMnaager() : CacheManager;
+
     public function getName() : string;
 
     public function getConfiguration() : CacheConfiguration;
+
+    public function getStatistics() : CacheStatistics;
 
     /**
      * Gets an entry from the cache.
@@ -108,4 +116,8 @@ interface Cache
     public function unset(string $key) : bool;
 
     public function invoke(string $key, Processor\EntryProcessor $processor, ...$arguments) : Processor\EntryProcessorResult;
+
+    public function close();
+
+    public function isClosed() : bool;
 }

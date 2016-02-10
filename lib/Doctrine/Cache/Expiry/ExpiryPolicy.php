@@ -43,21 +43,6 @@ interface ExpiryPolicy
     public function getExpiryForCreation() : Duration;
 
     /**
-     * Gets the {@link Duration} before an accessed Cache Entry is considered expired.
-     *
-     * This method is called by a caching implementation after a Cache Entry is accessed to determine the
-     * {@link Duration} before an entry expires. If a {@link Duration#ZERO} is returned a Cache Entry will be
-     * considered immediately expired. Returning <code>null</code> will result in no change to the previously
-     * understood expiry {@link Duration}.
-     *
-     * Should an exception occur while determining the Duration, an implementation specific default Duration will be
-     * used.
-     *
-     * @return \Doctrine\Cache\Expiry\Duration
-     */
-    public function getExpiryForAccess() : Duration;
-
-    /**
      * Gets the {@link Duration} before an updated Cache Entry is considered expired.
      *
      * This method is called by the caching implementation after a Cache Entry is updated to determine the

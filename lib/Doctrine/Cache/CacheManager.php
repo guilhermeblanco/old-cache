@@ -165,5 +165,5 @@ interface CacheManager
      *
      * @return bool true if the feature is supported, false otherwise
      */
-    public function isSupported(string $feature) : bool;
+    //public function isSupported(string $feature) : bool;
 }

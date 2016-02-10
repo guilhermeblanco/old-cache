@@ -37,28 +37,6 @@ interface CacheStatistics
     public function clear();
 
     /**
-     * The mean time to execute gets.
-     * In a read-through cache the time taken to load an entry on miss is not included in get time.
-     *
-     * @return float the time in microseconds
-     */
-    public function getAverageGetTime() : float;
-
-    /**
-     * The mean time to execute sets.
-     *
-     * @return float the time in microseconds
-     */
-    public function getAverageSetTime() : float;
-
-    /**
-     * The mean time to execute unsets.
-     *
-     * @return float the time in microseconds
-     */
-    public function getAverageUnsetTime() : float;
-
-    /**
      * The total number of evictions from the cache. An eviction is a removal initiated by the cache itself to free up
      * space. An eviction is not treated as a removal and does not appear in the removal counts.
      *
@@ -97,7 +75,7 @@ interface CacheStatistics
 
     /**
      * This is a measure of cache efficiency.
-     * It is calculated as: getCacheHits() divided by () * 100.
+     * It is calculated as: getCacheHits() divided by getCacheGets() * 100.
      *
      * @return float the percentage of successful hits, as a decimal e.g 75.
      */

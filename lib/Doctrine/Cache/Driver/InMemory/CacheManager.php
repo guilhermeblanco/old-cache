@@ -18,7 +18,7 @@ declare(strict_types = 1);
 namespace Doctrine\Cache\Driver\InMemory;
 
 use Doctrine\Cache\Configuration;
-use Doctrine\Cache\Exception\IllegalStateException;
+use Doctrine\Cache\Exception;
 
 /**
  * Class CacheManager
@@ -42,31 +42,31 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     /**
      * {@inheritdoc}
      */
-    public function createCache(string $name, Configuration\CacheConfiguration $configuration) : \Doctrine\Cache\Cache
+    public function createCache(string $cacheName, Configuration\CacheConfiguration $configuration) : \Doctrine\Cache\Cache
     {
-        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
-        assert(
-            ! isset($this->cacheMap[$name]),
-            new \InvalidArgumentException(sprintf('A cache named "%s" already exists', $name))
-        );
+        $this->ensureOpen();
 
-        $this->cacheMap[$name] = new Cache($this, $name, $configuration);
+        if (isset($this->cacheMap[$cacheName])) {
+            throw new \InvalidArgumentException(sprintf('A cache named "%s" already exists', $cacheName));
+        }
 
-        return $this->cacheMap[$name];
+        $cache = new Cache($this, $cacheName, $configuration);
+
+        return $this->cacheMap[$cacheName] = $cache;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCache(string $name) : Cache
+    public function getCache(string $cacheName) : Cache
     {
-        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
-        assert(
-            isset($this->cacheMap[$name]),
-            new \InvalidArgumentException(sprintf('A cache named "%s" does not exist', $name))
-        );
+        $this->ensureOpen();
 
-        return $this->cacheMap[$name];
+        if (! isset($this->cacheMap[$cacheName])) {
+            throw new \InvalidArgumentException(sprintf('A cache named "%s" does not exists', $cacheName));
+        }
+
+        return $this->cacheMap[$cacheName];
     }
 
     /**
@@ -74,7 +74,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
      */
     public function getCacheNameList() : array
     {
-        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+        $this->ensureOpen();
 
         return array_keys($this->cacheMap);
     }
@@ -82,11 +82,21 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     /**
      * {@inheritdoc}
      */
-    public function destroyCache(string $name)
+    public function destroyCache(string $cacheName)
     {
-        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+        $this->ensureOpen();
 
-        unset($this->cacheMap[$name]);
+        $this->getCache($cacheName)->close();
+    }
+
+    /**
+     * Releases the {@link Cache} with the specified name from being managed by this {@link CacheManager}.
+     *
+     * @param string $cacheName
+     */
+    public function releaseCache(string $cacheName)
+    {
+        unset($this->cacheMap[$cacheName]);
     }
 
     /**
@@ -94,9 +104,9 @@ class CacheManager implements \Doctrine\Cache\CacheManager
      */
     public function enableStatistics(string $cacheName, boolean $enabled)
     {
-        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+        $this->ensureOpen();
 
-        // TODO: Implement enableStatistics() method.
+        $this->getCache($cacheName)->getConfiguration()->setStatisticsEnabled($enabled);
     }
 
     /**
@@ -104,9 +114,9 @@ class CacheManager implements \Doctrine\Cache\CacheManager
      */
     public function getStatistics(string $cacheName) : \Doctrine\Cache\CacheStatistics
     {
-        assert(! $this->closed, IllegalStateException::managerAlreadyClosed());
+        $this->ensureOpen();
 
-        // TODO: Implement getStatistics() method.
+        return $this->getCache($cacheName)->getStatistics();
     }
 
     /**
@@ -126,14 +136,16 @@ class CacheManager implements \Doctrine\Cache\CacheManager
      */
     public function isClosed() : bool
     {
-        // TODO: Implement isClosed() method.
+        return $this->closed;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception\IllegalStateException
      */
-    public function isSupported(string $feature) : bool
+    private function ensureOpen()
     {
-        // TODO: Implement isSupported() method.
+        if ($this->closed) {
+            throw Exception\IllegalStateException::managerAlreadyClosed();
+        }
     }
 }
