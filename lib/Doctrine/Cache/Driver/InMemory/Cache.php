@@ -45,19 +45,19 @@ class Cache implements \Doctrine\Cache\Cache
     private $name;
 
     /**
-     * @var Configuration\CacheConfiguration
+     * @var Configuration\CompleteConfiguration
      */
     private $configuration;
-
-    /**
-     * @var array
-     */
-    private $entryMap = [];
 
     /**
      * @var CacheStatistics
      */
     private $statistics;
+
+    /**
+     * @var array
+     */
+    private $entryMap = [];
 
     /**
      * @var bool
@@ -67,14 +67,14 @@ class Cache implements \Doctrine\Cache\Cache
     /**
      * Cache constructor.
      *
-     * @param CacheManager                     $cacheManager
-     * @param string                           $name
-     * @param Configuration\CacheConfiguration $configuration
+     * @param CacheManager                        $cacheManager
+     * @param string                              $name
+     * @param Configuration\CompleteConfiguration $configuration
      */
     public function __construct(
         CacheManager $cacheManager,
         string $name,
-        Configuration\CacheConfiguration $configuration
+        Configuration\CompleteConfiguration $configuration
     )
     {
         $this->cacheManager  = $cacheManager;
@@ -102,7 +102,7 @@ class Cache implements \Doctrine\Cache\Cache
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration() : Configuration\CacheConfiguration
+    public function getConfiguration() : Configuration\CompleteConfiguration
     {
         return $this->configuration;
     }
@@ -123,7 +123,6 @@ class Cache implements \Doctrine\Cache\Cache
         $this->ensureOpen();
 
         $now            = microtime(true);
-        $expiryPolicy   = $this->configuration->getExpiryPolicy();
         $keyConverter   = $this->configuration->getKeyConverter();
         $valueConverter = $this->configuration->getValueConverter();
         $internalKey    = $keyConverter->toInternal($key);
@@ -132,7 +131,8 @@ class Cache implements \Doctrine\Cache\Cache
         if ($cachedValue !== null && ! $cachedValue->isExpiredAt($now)) {
             $this->statistics->increaseCacheHits(1);
 
-            $value = $valueConverter->fromInternal($cachedValue->getInternalValue());
+            $internalValue = $cachedValue->getInternalValue();
+            $value         = $valueConverter->fromInternal($internalValue);
 
             return $value;
         }
@@ -147,9 +147,11 @@ class Cache implements \Doctrine\Cache\Cache
             return null;
         }
 
+        $expiryPolicy     = $this->configuration->getExpiryPolicy();
         $creationDuration = $expiryPolicy->getExpiryForCreation();
         $expiryTime       = $creationDuration->getAdjustedTime($now);
-        $cachedValue      = new CachedValue($valueConverter->toInternal($value), $now, $expiryTime);
+        $internalValue    = $valueConverter->toInternal($value);
+        $cachedValue      = new CachedValue($internalValue, $now, $expiryTime);
 
         $this->entryMap[$internalKey] = $cachedValue;
 
@@ -224,13 +226,5 @@ class Cache implements \Doctrine\Cache\Cache
         if ($this->closed) {
             throw Exception\IllegalStateException::cacheAlreadyClosed();
         }
-    }
-
-    /**
-     * @return bool
-     */
-    private function isStatisticsEnabled() : bool
-    {
-        return $this->configuration->isStatisticsEnabled();
     }
 }

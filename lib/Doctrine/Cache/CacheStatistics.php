@@ -79,7 +79,7 @@ interface CacheStatistics
      *
      * @return float the percentage of successful hits, as a decimal e.g 75.
      */
-    public function getCacheHitsPercentage() : float;
+    public function getCacheHitPercentage() : float;
 
     /**
      * Returns the percentage of cache accesses that did not find a requested entry in the cache.
@@ -87,7 +87,7 @@ interface CacheStatistics
      *
      * @return float the percentage of accesses that failed to find anything
      */
-    public function getCacheMissesPercentage() : float;
+    public function getCacheMissPercentage() : float;
 
     /**
      * The number of get requests that were satisfied by the cache.

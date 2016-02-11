@@ -22,14 +22,14 @@ use Doctrine\Cache\Expiry;
 use Doctrine\Cache\Integration;
 
 /**
- * {@link CacheConfiguration} provides relevant configuration properties that are used by {@link CacheManager}s to
- * configure {@link Cache}s.
+ * {@link CompleteConfiguration} provides read-only configuration properties that are used by
+ * {@link \Doctrine\Cache\CacheManager}s to configure {@link \Doctrine\Cache\Cache}s.
  *
  * @package Doctrine\Cache\Configuration
  *
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class CacheConfiguration
+class CompleteConfiguration
 {
     /**
      * @var Expiry\ExpiryPolicy
@@ -57,9 +57,44 @@ class CacheConfiguration
     protected $cacheWriter;
 
     /**
-     * @var bool
+     * @param CompleteConfiguration $configuration
+     *
+     * @return CompleteConfiguration
      */
-    protected $statisticsEnabled = false;
+    public static function createFromConfiguration(CompleteConfiguration $configuration)
+    {
+        return new self(
+            $configuration->getExpiryPolicy(),
+            $configuration->getKeyConverter(),
+            $configuration->getValueConverter(),
+            $configuration->getCacheLoader(),
+            $configuration->getCacheWriter()
+        );
+    }
+
+    /**
+     * CompleteConfiguration constructor.
+     *
+     * @param Expiry\ExpiryPolicy     $expiryPolicy
+     * @param Converter\Converter     $keyConverter
+     * @param Converter\Converter     $valueConverter
+     * @param Integration\CacheLoader $cacheLoader
+     * @param Integration\CacheWriter $cacheWriter
+     */
+    private function __construct(
+        Expiry\ExpiryPolicy $expiryPolicy,
+        Converter\Converter $keyConverter,
+        Converter\Converter $valueConverter,
+        Integration\CacheLoader $cacheLoader,
+        Integration\CacheWriter $cacheWriter
+    )
+    {
+        $this->expiryPolicy   = $expiryPolicy;
+        $this->keyConverter   = $keyConverter;
+        $this->valueConverter = $valueConverter;
+        $this->cacheLoader    = $cacheLoader;
+        $this->cacheWriter    = $cacheWriter;
+    }
 
     /**
      * Retrieve the expiration policy for cache entries.
@@ -75,16 +110,6 @@ class CacheConfiguration
         }
 
         return $this->expiryPolicy;
-    }
-
-    /**
-     * Define the expiration policy for cache entries.
-     *
-     * @param Expiry\ExpiryPolicy $expiryPolicy
-     */
-    public function setExpiryPolicy(Expiry\ExpiryPolicy $expiryPolicy)
-    {
-        $this->expiryPolicy = $expiryPolicy;
     }
 
     /**
@@ -104,16 +129,6 @@ class CacheConfiguration
     }
 
     /**
-     * Define the key converter for cache entries.
-     *
-     * @param Converter\Converter $converter
-     */
-    public function setKeyConverter(Converter\Converter $converter)
-    {
-        $this->keyConverter = $converter;
-    }
-
-    /**
      * Retrieve the value converter for cache entries.
      *
      * The default value is a {@link Converter\SerializeConverter}.
@@ -127,16 +142,6 @@ class CacheConfiguration
         }
 
         return $this->valueConverter;
-    }
-
-    /**
-     * Define the value converter for cache entries.
-     *
-     * @param Converter\Converter $converter
-     */
-    public function setValueConverter(Converter\Converter $converter)
-    {
-        $this->valueConverter = $converter;
     }
 
     /**
@@ -165,19 +170,6 @@ class CacheConfiguration
     }
 
     /**
-     * Define the cache loader.
-     *
-     * {@link Integration\CacheLoader} must be configured for read-through caches
-     * to load values when cache miss occurs as a result of "get" operations.
-     *
-     * @param Integration\CacheLoader $loader
-     */
-    public function setCacheLoader(Integration\CacheLoader $loader)
-    {
-        $this->cacheLoader = $loader;
-    }
-
-    /**
      * Checks if a cache should operate in write-through mode.
      *
      * When in write-through mode, cache update occurs as a result of "set" operations
@@ -200,38 +192,5 @@ class CacheConfiguration
     public function getCacheWriter() : Integration\CacheWriter
     {
         return $this->cacheWriter;
-    }
-
-    /**
-     * Define the cache writer.
-     *
-     * {@link Integration\CacheWriter} must be configured for write-through caches
-     * to store values when cache update occurs as a result of "set" operations.
-     *
-     * @param Integration\CacheWriter $writer
-     */
-    public function setCacheWriter(Integration\CacheWriter $writer)
-    {
-        $this->cacheWriter = $writer;
-    }
-
-    /**
-     * Enable/Disable cache statistics.
-     *
-     * @param bool $enabled
-     */
-    public function setStatisticsEnabled(boolean $enabled)
-    {
-        $this->statisticsEnabled = $enabled;
-    }
-
-    /**
-     * Checks whether statistics gathering is enabled.
-     *
-     * @return bool
-     */
-    public function isStatisticsEnabled() : bool
-    {
-        return $this->statisticsEnabled;
     }
 }

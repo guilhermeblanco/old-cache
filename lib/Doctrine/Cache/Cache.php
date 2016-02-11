@@ -17,7 +17,7 @@ declare(strict_types = 1);
 
 namespace Doctrine\Cache;
 
-use Doctrine\Cache\Configuration\CacheConfiguration;
+use Doctrine\Cache\Configuration\CompleteConfiguration;
 
 /**
  * A Cache is a Map-like data structure that provides temporary storage of application data. Unlike Maps, Caches:
@@ -37,7 +37,7 @@ interface Cache
 
     public function getName() : string;
 
-    public function getConfiguration() : CacheConfiguration;
+    public function getConfiguration() : CompleteConfiguration;
 
     public function getStatistics() : CacheStatistics;
 

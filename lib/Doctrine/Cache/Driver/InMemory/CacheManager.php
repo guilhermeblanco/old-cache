@@ -17,6 +17,7 @@ declare(strict_types = 1);
 
 namespace Doctrine\Cache\Driver\InMemory;
 
+use Doctrine\Cache\CacheStatistics;
 use Doctrine\Cache\Configuration;
 use Doctrine\Cache\Exception;
 
@@ -42,7 +43,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     /**
      * {@inheritdoc}
      */
-    public function createCache(string $cacheName, Configuration\CacheConfiguration $configuration) : \Doctrine\Cache\Cache
+    public function createCache(string $cacheName, Configuration\CompleteConfiguration $configuration) : \Doctrine\Cache\Cache
     {
         $this->ensureOpen();
 
@@ -50,7 +51,8 @@ class CacheManager implements \Doctrine\Cache\CacheManager
             throw new \InvalidArgumentException(sprintf('A cache named "%s" already exists', $cacheName));
         }
 
-        $cache = new Cache($this, $cacheName, $configuration);
+        $immutableConfiguration = Configuration\CompleteConfiguration::createFromConfiguration($configuration);
+        $cache                  = new Cache($this, $cacheName, $immutableConfiguration);
 
         return $this->cacheMap[$cacheName] = $cache;
     }
@@ -102,17 +104,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     /**
      * {@inheritdoc}
      */
-    public function enableStatistics(string $cacheName, boolean $enabled)
-    {
-        $this->ensureOpen();
-
-        $this->getCache($cacheName)->getConfiguration()->setStatisticsEnabled($enabled);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStatistics(string $cacheName) : \Doctrine\Cache\CacheStatistics
+    public function getStatistics(string $cacheName) : CacheStatistics
     {
         $this->ensureOpen();
 

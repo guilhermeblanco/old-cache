@@ -108,23 +108,27 @@ class CacheStatistics implements \Doctrine\Cache\CacheStatistics
      */
     public function getCacheUnsets() : int
     {
-        return $this->cacheunsets;
+        return $this->cacheUnsets;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheHitsPercentage() : float
+    public function getCacheHitPercentage() : float
     {
-        // TODO: Implement getCacheHitsPercentage() method.
+        return $this->cacheHits !== 0
+            ? ($this->cacheHits / $this->getCacheGets()) * 100
+            : 0;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheMissesPercentage() : float
+    public function getCacheMissPercentage() : float
     {
-        // TODO: Implement getCacheMissesPercentage() method.
+        return $this->cacheMisses !== 0
+            ? ($this->cacheMisses / $this->getCacheGets()) * 100
+            : 0;
     }
 
     /**
