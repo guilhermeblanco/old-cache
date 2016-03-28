@@ -27,25 +27,6 @@ class EternalExpiryPolicyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideDataForAccess
-     */
-    public function testGetExpiryForAccess($expected)
-    {
-        $expiry = new EternalExpiryPolicy();
-
-        $this->assertEquals($expected, $expiry->getExpiryForAccess());
-    }
-
-    public function provideDataForAccess()
-    {
-        return array(
-            array(
-                new Duration(Duration::ETERNAL),
-            )
-        );
-    }
-
-    /**
      * @dataProvider provideDataForUpdate
      */
     public function testGetExpiryForUpdate($expected)

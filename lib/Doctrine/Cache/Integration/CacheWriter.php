@@ -17,6 +17,8 @@ declare(strict_types = 1);
 
 namespace Doctrine\Cache\Integration;
 
+use Doctrine\Cache\Entry;
+
 /**
  * Interface CacheWriter
  *
@@ -26,7 +28,7 @@ namespace Doctrine\Cache\Integration;
  */
 interface CacheWriter
 {
-    public function write(string $key);
+    public function write(Entry $entry);
 
     public function delete(string $key);
 }

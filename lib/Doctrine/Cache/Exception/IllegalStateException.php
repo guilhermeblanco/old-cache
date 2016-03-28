@@ -27,18 +27,12 @@ namespace Doctrine\Cache\Exception;
 class IllegalStateException extends \RuntimeException
 {
     /**
+     * @param string $what
+     *
      * @return IllegalStateException
      */
-    public static function managerAlreadyClosed()
+    public static function alreadyClosed($what)
     {
-        return new static("Unable to perform operations as Cache manager is already closed.");
-    }
-
-    /**
-     * @return IllegalStateException
-     */
-    public static function cacheAlreadyClosed()
-    {
-        return new static("Unable to perform operations as Cache is already closed.");
+        return new static(sprintf("Unable to perform operations as %s is already closed.", $what));
     }
 }

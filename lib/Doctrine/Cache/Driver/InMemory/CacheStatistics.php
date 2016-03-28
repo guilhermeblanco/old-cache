@@ -118,7 +118,8 @@ class CacheStatistics implements \Doctrine\Cache\CacheStatistics
     {
         return $this->cacheHits !== 0
             ? ($this->cacheHits / $this->getCacheGets()) * 100
-            : 0;
+            : 0
+        ;
     }
 
     /**
@@ -128,7 +129,8 @@ class CacheStatistics implements \Doctrine\Cache\CacheStatistics
     {
         return $this->cacheMisses !== 0
             ? ($this->cacheMisses / $this->getCacheGets()) * 100
-            : 0;
+            : 0
+        ;
     }
 
     /**

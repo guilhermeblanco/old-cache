@@ -47,8 +47,8 @@ interface CacheManager
      * requirement to configure them in an application.  In such circumstances, a developer may simply call the
      * {@link #getCache(String)} method to acquire a previously established or pre-configured {@link Cache}.
      *
-     * @param string                              $cacheName     the name of the {@link Cache}
-     * @param Configuration\CompleteConfiguration $configuration a {@link CompleteConfiguration} for the {@link Cache}
+     * @param string                           $cacheName     the name of the {@link Cache}
+     * @param Configuration\CacheConfiguration $configuration a {@link CacheConfiguration} for the {@link Cache}
      *
      * @return Cache
      *
@@ -57,7 +57,7 @@ interface CacheManager
      * @throws Exception\UnsupportedOperationException if the configuration specifies an unsupported feature
      * @throws \InvalidArgumentException               if the cache name is an empty string or name is already in use
      */
-    public function createCache(string $cacheName, Configuration\CompleteConfiguration $configuration) : Cache;
+    public function createCache(string $cacheName, Configuration\CacheConfiguration $configuration) : Cache;
 
     /**
      * Looks up a managed {@link Cache} given its name.

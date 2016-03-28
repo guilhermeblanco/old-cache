@@ -22,7 +22,7 @@ use Doctrine\Cache\Configuration;
 use Doctrine\Cache\Exception;
 
 /**
- * Class CacheManager
+ * InMemory CacheManager
  *
  * @package Doctrine\Cache\Driver\InMemory
  *
@@ -43,7 +43,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     /**
      * {@inheritdoc}
      */
-    public function createCache(string $cacheName, Configuration\CompleteConfiguration $configuration) : \Doctrine\Cache\Cache
+    public function createCache(string $cacheName, Configuration\CacheConfiguration $configuration) : Cache
     {
         $this->ensureOpen();
 
@@ -51,8 +51,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
             throw new \InvalidArgumentException(sprintf('A cache named "%s" already exists', $cacheName));
         }
 
-        $immutableConfiguration = Configuration\CompleteConfiguration::createFromConfiguration($configuration);
-        $cache                  = new Cache($this, $cacheName, $immutableConfiguration);
+        $cache = new Cache($this, $cacheName, $configuration);
 
         return $this->cacheMap[$cacheName] = $cache;
     }
@@ -137,7 +136,7 @@ class CacheManager implements \Doctrine\Cache\CacheManager
     private function ensureOpen()
     {
         if ($this->closed) {
-            throw Exception\IllegalStateException::managerAlreadyClosed();
+            throw Exception\IllegalStateException::alreadyClosed('Cache Manager');
         }
     }
 }

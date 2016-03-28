@@ -26,7 +26,7 @@ use Doctrine\Cache\Integration;
 use Doctrine\Cache\Processor;
 
 /**
- * Class Cache
+ * InMemory Cache
  *
  * @package Doctrine\Cache\Driver\InMemory
  *
@@ -45,9 +45,29 @@ class Cache implements \Doctrine\Cache\Cache
     private $name;
 
     /**
-     * @var Configuration\CompleteConfiguration
+     * @var Expiry\ExpiryPolicy
      */
-    private $configuration;
+    protected $expiryPolicy;
+
+    /**
+     * @var Converter\Converter
+     */
+    protected $keyConverter;
+
+    /**
+     * @var Converter\Converter
+     */
+    protected $valueConverter;
+
+    /**
+     * @var Integration\CacheLoader
+     */
+    protected $cacheLoader;
+
+    /**
+     * @var Integration\CacheWriter
+     */
+    protected $cacheWriter;
 
     /**
      * @var CacheStatistics
@@ -67,26 +87,30 @@ class Cache implements \Doctrine\Cache\Cache
     /**
      * Cache constructor.
      *
-     * @param CacheManager                        $cacheManager
-     * @param string                              $name
-     * @param Configuration\CompleteConfiguration $configuration
+     * @param CacheManager                     $cacheManager
+     * @param string                           $name
+     * @param Configuration\CacheConfiguration $configuration
      */
     public function __construct(
         CacheManager $cacheManager,
         string $name,
-        Configuration\CompleteConfiguration $configuration
+        Configuration\CacheConfiguration $configuration
     )
     {
-        $this->cacheManager  = $cacheManager;
-        $this->name          = $name;
-        $this->configuration = $configuration;
-        $this->statistics    = new CacheStatistics($this);
+        $this->cacheManager   = $cacheManager;
+        $this->name           = $name;
+        $this->expiryPolicy   = $configuration->getExpiryPolicy();
+        $this->keyConverter   = $configuration->getKeyConverter();
+        $this->valueConverter = $configuration->getValueConverter();
+        $this->cacheLoader    = $configuration->getCacheLoader();
+        $this->cacheWriter    = $configuration->getCacheWriter();
+        $this->statistics     = new CacheStatistics($this);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheMnaager() : CacheManager
+    public function getCacheManager() : CacheManager
     {
         return $this->cacheManager;
     }
@@ -97,14 +121,6 @@ class Cache implements \Doctrine\Cache\Cache
     public function getName() : string
     {
         return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfiguration() : Configuration\CompleteConfiguration
-    {
-        return $this->configuration;
     }
 
     /**
@@ -122,35 +138,28 @@ class Cache implements \Doctrine\Cache\Cache
     {
         $this->ensureOpen();
 
-        $now            = microtime(true);
-        $keyConverter   = $this->configuration->getKeyConverter();
-        $valueConverter = $this->configuration->getValueConverter();
-        $internalKey    = $keyConverter->toInternal($key);
-        $cachedValue    = $this->entryMap[$internalKey] ?? null;
+        $now         = microtime(true);
+        $internalKey = $this->keyConverter->toInternal($key);
+        $cachedValue = $this->entryMap[$internalKey] ?? null;
 
         if ($cachedValue !== null && ! $cachedValue->isExpiredAt($now)) {
             $this->statistics->increaseCacheHits(1);
 
             $internalValue = $cachedValue->getInternalValue();
-            $value         = $valueConverter->fromInternal($internalValue);
+            $value         = $this->valueConverter->fromInternal($internalValue);
 
             return $value;
         }
 
         $this->statistics->increaseCacheMisses(1);
 
-        $value = $this->configuration->isReadThrough()
-            ? $this->configuration->getCacheLoader()->load($key)
-            : null;
-
-        if ($value === null) {
+        if (! $this->cacheLoader || ($value = $this->cacheLoader->load($key)) === null) {
             return null;
         }
 
-        $expiryPolicy     = $this->configuration->getExpiryPolicy();
-        $creationDuration = $expiryPolicy->getExpiryForCreation();
+        $creationDuration = $this->expiryPolicy->getExpiryForCreation();
         $expiryTime       = $creationDuration->getAdjustedTime($now);
-        $internalValue    = $valueConverter->toInternal($value);
+        $internalValue    = $this->valueConverter->toInternal($value);
         $cachedValue      = new CachedValue($internalValue, $now, $expiryTime);
 
         $this->entryMap[$internalKey] = $cachedValue;
@@ -165,7 +174,39 @@ class Cache implements \Doctrine\Cache\Cache
     {
         $this->ensureOpen();
 
-        // TODO: Implement set() method.
+        $now           = microtime(true);
+        $internalKey   = $this->keyConverter->toInternal($key);
+        $internalValue = $this->valueConverter->toInternal($value);
+        $cachedValue   = $this->entryMap[$internalKey] ?? null;
+
+        if (! $cachedValue || $cachedValue->isExpiredAt($now)) {
+            $entry            = new Entry($key, $value);
+            $creationDuration = $this->expiryPolicy->getExpiryForCreation();
+            $expiryTime       = $creationDuration->getAdjustedTime($now);
+            $cachedValue      = new CachedValue($internalValue, $now, $expiryTime);
+
+            $this->cacheWriter && $this->cacheWriter->write($entry);
+
+            $this->statistics->increaseCachePuts(1);
+
+            $this->entryMap[$internalKey] = $cachedValue;
+
+            return true;
+        }
+
+        $oldValue       = $this->valueConverter->fromInternal($cachedValue->getInternalValue());
+        $entry          = new Entry($key, $value, $oldValue);
+        $updateDuration = $this->expiryPolicy->getExpiryForUpdate();
+        $expiryTime     = $updateDuration->getAdjustedTime($now);
+
+        $cachedValue->setExpiryTime($expiryTime);
+        $cachedValue->setInternalValue($internalValue, $now);
+
+        $this->cacheWriter && $this->cacheWriter->write($entry);
+
+        $this->statistics->increaseCachePuts(1);
+
+        return true;
     }
 
     /**
@@ -175,7 +216,11 @@ class Cache implements \Doctrine\Cache\Cache
     {
         $this->ensureOpen();
 
-        // TODO: Implement isset() method.
+        $now         = microtime(true);
+        $internalKey = $this->keyConverter->toInternal($key);
+        $cachedValue = $this->entryMap[$internalKey] ?? null;
+
+        return $cachedValue && ! $cachedValue->isExpiredAt($now);
     }
 
     /**
@@ -224,7 +269,7 @@ class Cache implements \Doctrine\Cache\Cache
     private function ensureOpen()
     {
         if ($this->closed) {
-            throw Exception\IllegalStateException::cacheAlreadyClosed();
+            throw Exception\IllegalStateException::alreadyClosed('Cache');
         }
     }
 }
